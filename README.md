@@ -36,8 +36,8 @@
 
 ### Association
 
-- belongs_to :users
-- has_one :orders
+- belongs_to :user
+- has_one :order
 
 
 
@@ -50,9 +50,9 @@
 
 ### Association
 
-- belongs_to :users
-- belongs_to :items
-- has_one :address
+- belongs_to :user
+- belongs_to :item
+- has_one :addresses
 
 
 
@@ -61,7 +61,7 @@
 | Column            | Type       | Options                        |
 | ----------------- | ---------- | ------------------------------ |
 | postal_code       | string     | null: false                    |
-| prefecture_id     | integer    | null: false                    |
+| region_id         | integer    | null: false                    |
 | city              | string     | null: false                    |
 | street_address    | string     | null: false                    |
 | building_name     | string     |                                |
@@ -69,4 +69,4 @@
 | order             | references | null: false,foreign_key: true  |
 
 ### Association
-- belongs_to :orders
+- belongs_to :order
