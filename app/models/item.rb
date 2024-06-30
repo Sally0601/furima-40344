@@ -9,6 +9,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :region
   belongs_to_active_hash :preparation
 
+  has_one :orders
   has_one_attached :image
 
   validates :name, presence: true, length: { maximum: 40 }
