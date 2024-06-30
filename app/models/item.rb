@@ -1,5 +1,4 @@
 class Item < ApplicationRecord
-
   extend ActiveHash::Associations::ActiveRecordExtensions
 
   belongs_to :user
@@ -9,7 +8,6 @@ class Item < ApplicationRecord
   belongs_to_active_hash :region
   belongs_to_active_hash :preparation
 
-  has_one :orders
   has_one_attached :image
 
   validates :name, presence: true, length: { maximum: 40 }
@@ -21,7 +19,7 @@ class Item < ApplicationRecord
   validates :preparation_id, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
 
-  validates :image, presence: true
+  validate :image_presence
 
   def image_presence
     errors.add(:image, "can't be blank") unless image.attached?
