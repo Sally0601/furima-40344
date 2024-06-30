@@ -88,3 +88,5 @@ gem 'factory_bot_rails'
 gem 'faker'
 
 gem 'gimei'
+
+gem 'active_hash'
