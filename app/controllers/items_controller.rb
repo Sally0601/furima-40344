@@ -1,13 +1,13 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new]
+  before_action :authenticate_user!, only: [:new, :create]
 
   def index
-    @items = Item.all.order(created_at: :desc)
+    @items = Item.order("created_at DESC")
   end
 
   def new
     @item = Item.new
-  end  
+  end
 
   def create
     @item = Item.new(item_params)
@@ -16,11 +16,11 @@ class ItemsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  end 
+  end
 
   private
 
-  def item_params
+  def items_params
     params.require(:item).permit(:image, :name, :category_id, :condition_id, :delivery_charge_id,:region_id, :preparation_id, :description, :price)
   end
 end
