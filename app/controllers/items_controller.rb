@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.order("created_at DESC")
@@ -11,6 +13,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(items_params)
+    @item.user = current_user
     if @item.save
       redirect_to root_path
     else
@@ -19,12 +22,35 @@ class ItemsController < ApplicationController
   end
   
   def show
-    @item = Item.find(params[:id])
   end
 
+  def edit
+  end
+
+  def update
+    if @item.update(items_params)
+      redirect_to item_path(@item)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @item.destroy
+    redirect_to root_path
+  end
+  
   private
 
   def items_params
-    params.require(:item).permit(:image, :name, :category_id, :condition_id, :delivery_charge_id,:region_id, :preparation_id, :description, :price).merge(user_id:current_user.id)
+    params.require(:item).permit(:image, :name, :category_id, :condition_id, :delivery_charge_id, :region_id, :preparation_id, :description, :price)
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  def authorize_user!
+    redirect_to root_path, alert: 'You are not authorized to perform this action.' unless current_user == @item.user
   end
 end
