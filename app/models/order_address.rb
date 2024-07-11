@@ -1,6 +1,7 @@
 class OrderAddress
   include ActiveModel::Model
-  attr_accessor :postal_code, :region_id, :city, :street_address, :building_name, :phone_number, :item_id, :user_id, :token
+  attr_accessor :postal_code, :region_id, :city, :street_address, :building_name, :phone_number, :item_id, :user_id, :token,
+                :price
 
   with_options presence: true do
     validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: 'is invalid. Include hyphen(-)' }
@@ -14,7 +15,8 @@ class OrderAddress
   end
 
   def save
-    order = Order.create(user_id: user_id, item_id: item_id)
-    Address.create(postal_code: postal_code, region_id: region_id, city: city, street_address: street_address,building_name: building_name, phone_number: phone_number, order_id: order.id)
+    order = Order.create(user_id:, item_id:)
+    Address.create(postal_code:, region_id:, city:, street_address:,
+                   building_name:, phone_number:, order_id: order.id).persisted?
   end
 end
