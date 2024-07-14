@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
-    @items = Item.order("created_at DESC")
+    @items = Item.order('created_at DESC')
   end
 
   def new
@@ -20,11 +20,12 @@ class ItemsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   def show
   end
 
   def edit
+    redirect_to root_path if @item.order
   end
 
   def update
@@ -39,11 +40,12 @@ class ItemsController < ApplicationController
     @item.destroy
     redirect_to root_path
   end
-  
+
   private
 
   def items_params
-    params.require(:item).permit(:image, :name, :category_id, :condition_id, :delivery_charge_id, :region_id, :preparation_id, :description, :price)
+    params.require(:item).permit(:image, :name, :category_id, :condition_id, :delivery_charge_id, :region_id, :preparation_id,
+                                 :description, :price)
   end
 
   def set_item
@@ -51,6 +53,8 @@ class ItemsController < ApplicationController
   end
 
   def authorize_user!
-    redirect_to root_path, alert: 'You are not authorized to perform this action.' unless current_user == @item.user
+    return if current_user.id == @item.user_id
+
+    redirect_to action: :index
   end
 end
