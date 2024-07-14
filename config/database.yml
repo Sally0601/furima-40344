@@ -8,7 +8,7 @@ development:
   username: root
   password:
   host: localhost
-  database: furima-40344_development
+  database: furima_40344_development
 
 test:
   <<: *default
@@ -16,9 +16,10 @@ test:
   username: root
   password:
   host: localhost
-  database: furima-40344_test
+  database: furima_40344_test
 
 production:
   <<: *default
-  adapter: postgresql
-  url: <%= ENV['DATABASE_URL'] %>
+  database: furima_40344_production
+  username: furima_40344
+  password: <%= ENV["FURIMA_123_DATABASE_PASSWORD"] %>
