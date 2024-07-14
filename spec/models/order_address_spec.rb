@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-require 'rails_helper'
-
 RSpec.describe OrderAddress, type: :model do
   before do
     @user = FactoryBot.create(:user)
@@ -55,13 +53,19 @@ RSpec.describe OrderAddress, type: :model do
       it 'phone_numberが10桁未満では登録できない' do
         @order_address.phone_number = '090123456'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include('Phone number must be a number between 10 and 11 digits.')
+        expect(@order_address.errors.full_messages).to include('Phone number is invalid')
       end
 
       it 'phone_numberが12桁以上では登録できない' do
         @order_address.phone_number = '090123456789'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include('Phone number must be a number between 10 and 11 digits.')
+        expect(@order_address.errors.full_messages).to include('Phone number is invalid')
+      end
+
+      it 'phone_numberが半角数値でないと登録できない' do
+        @order_address.phone_number = '０９０１２３４５６７８'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Phone number is invalid')
       end
 
       it 'user_idが空では登録できない' do

@@ -8,8 +8,7 @@ class OrderAddress
     validates :region_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :city
     validates :street_address
-    validates :phone_number,
-              format: { with: /\A\d{10,11}\z/, message: 'must be a number between 10 and 11 digits.', allow_blank: true }
+    validates :phone_number,format: { with: /\A\d{10,11}\z/ }
     validates :user_id
     validates :item_id
     validates :token
