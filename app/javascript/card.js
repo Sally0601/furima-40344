@@ -14,16 +14,16 @@ const pay = () => {
   form.addEventListener("submit", (e) => {
     payjp.createToken(numberElement).then(function (response) {
       if (response.error) {
-       } else {
+      } else {
         const token = response.id;
         const renderDom = document.getElementById("charge-form");
         const tokenObj = `<input value=${token} name='token' type="hidden">`;
         renderDom.insertAdjacentHTML("beforeend", tokenObj);
-     }
-     numberElement.clear();
-     expiryElement.clear();
-     cvcElement.clear();
-     document.getElementById("charge-form").submit();
+      }
+      numberElement.clear();
+      expiryElement.clear();
+      cvcElement.clear();
+      document.getElementById("charge-form").submit();
     });
     e.preventDefault();
   });
