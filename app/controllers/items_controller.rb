@@ -41,15 +41,15 @@ class ItemsController < ApplicationController
     redirect_to root_path
   end
 
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
   private
 
   def items_params
     params.require(:item).permit(:image, :name, :category_id, :condition_id, :delivery_charge_id, :region_id, :preparation_id,
                                  :description, :price)
-  end
-
-  def set_item
-    @item = Item.find(params[:id])
   end
 
   def authorize_user!
